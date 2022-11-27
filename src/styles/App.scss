@@ -1,5 +1,13 @@
-body {
+@import 'core/reset';
+@import 'core/variables.scss';
+@import 'core/responsive.scss';
+@import 'core/mixin.scss';
+
+
+
+.body {
     background-color: #F2EDEB;
+
 }
 
 .complete {
@@ -8,71 +16,142 @@ body {
 
 .header {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: flex-start;
 
+    @include tablet {
+        flex-direction: row;
+        justify-content: space-between;
+        padding-bottom: 40px;
+    }
 
     &__h1 {
+        font-size: 32px;
         color: #46034B;
-        margin-top: 5px;
-        margin-left: 8px;
+        margin-top: 5%;
+        margin-left: 3%;
         text-transform: uppercase;
+        font-family: $title-font;
+
+        @include tablet {
+            font-size: 42px;
+        }
+
+
     }
 
     &__nav {
-        text-align: center;
+        text-align: left;
+        margin-left: 3%;
+        margin-bottom: 8%;
+
+        @include tablet {
+            margin-right: 3%;
+        }
 
         &__h2 {
             color: #925E78;
-            margin-top: 40px;
-            margin-bottom: 2px;
-            font-size: 15px;
+            margin-top: 28%;
+            margin-bottom: 1%;
+            @include mini-title;
         }
+
+        &__input {
+            padding: 5px;
+        }
+
     }
 }
 
 .list {
+    font-size: 20px;
+    font-family: $list-font;
+    padding: 1%;
     list-style: none;
-    margin-bottom: 12px;
     color: #925E78;
+    display: flex;
+    align-items: center;
+    margin-left: 3%;
+
+    @include desktop {
+        font-size: 28px;
+    }
+
 }
 
 .list__trash {
-    margin-right: 10px;
+    margin-right: 1%;
     color: #F05365;
 }
 
 .form {
-    padding-bottom: 20px;
+    margin-top: 2%;
+    margin-left: 3%;
+    padding: 2% 2% 2% 0;
     display: flex;
     flex-direction: column;
 
+
     &__label {
-        font-size: 20px;
+        @include mini-title;
         color: #925E78;
-        margin-bottom: 8px;
+        margin-bottom: 1%;
+        margin-top: 8%;
     }
 
     &__input {
         max-width: 70%;
+        margin-bottom: 3%;
+        font-family: $text-font;
+        color: #925E78;
+
+        @include desktop {
+            padding: 10px;
+        }
     }
 
     &__button {
-        margin-top: 10px;
+        margin-bottom: 5%;
         background-color: #F05365;
         border: solid 1px #BD93BD;
         border-radius: 5px;
         color: #F2EDEB;
         font-weight: 400;
-        max-width: 25%;
         padding: 8px;
+        @include mini-title;
+
+        @include tablet {
+            max-width: 25%;
+        }
     }
 }
 
 
 
 .footer__counter {
+    margin-top: 4%;
+    width: 100vw;
     color: #46034B;
-    background-color: #FABC2A;
     display: flex;
-    justify-content: space-around;
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    @include tablet {
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
+
+    &__p {
+        width: 80%;
+        background-color: #FABC2A;
+        padding: 20px 0 20px 0;
+        border-radius: 12px;
+        @include mini-title;
+
+        @include tablet {
+            width: 30%;
+        }
+    }
 }

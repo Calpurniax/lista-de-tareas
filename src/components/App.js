@@ -18,7 +18,9 @@ export default function App() {
   const render = () => {
     return (tasks
       .filter((task) => task.task.toLowerCase().includes(searchValue.toLowerCase()))
-      .map((task, index) => (<li key={index} id={index} className={task.completed ? 'list complete' : 'list'} onClick={handleClick} > <i className="fa-solid fa-trash list__trash" id={index} onClick={handleErase}></i>{task.task} </li >))
+      .map((task, index) => (<li key={index} id={index} className='list'> <i className="fa-solid fa-trash list__trash" id={index} onClick={handleErase}></i>
+        <p id={index} className={task.completed ? 'list__p complete' : 'list__p'} onClick={handleClick}>{task.task}</p>
+      </li >))
     )
   }
 
@@ -31,9 +33,9 @@ export default function App() {
     })
     return (
       <section className="footer__counter">
-        <p>Tareas totales:{tasks.length}</p>
-        <p>Tareas completadas:{i}</p>
-        <p>Tareas pendientes:{tasks.length - i}</p>
+        <p className='footer__counter__p'>Tareas totales:{tasks.length}</p>
+        <p className='footer__counter__p'>Tareas completadas:{i}</p>
+        <p className='footer__counter__p'>Tareas pendientes:{tasks.length - i}</p>
       </section>
     )
   }
@@ -41,7 +43,7 @@ export default function App() {
   const handleSubmit = (ev) => { ev.preventDefault() }
   //marcar como completada o no
   const handleClick = (ev) => {
-    if (ev.target.className === 'list' || 'list completed') {
+    if (ev.target.className === 'list__p' || 'list__p completed') {
       const taskIndex = parseInt(ev.target.id);
       tasks[taskIndex].completed = !tasks[taskIndex].completed;
       setTasks([...tasks]);
@@ -63,19 +65,22 @@ export default function App() {
     setNewTask('');
   }
   const handleErase = (ev) => {
-    const eraseTaskIndex = parseInt(ev.target.id)
-    tasks.splice([eraseTaskIndex], 1);
-    setTasks(...tasks)
+    if (ev.target.className === "fa-solid fa-trash list__trash") {
+      const eraseTaskIndex = parseInt(ev.target.id)
+      tasks.splice([eraseTaskIndex], 1);
+      setTasks([...tasks])
+    }
+
 
   }
 
   return (
     <div className="App">
       <header className="header">
-        <h1 className="header__h1">mi lista de tareas</h1>
+        <h1 className="header__h1">Mi lista de tareas</h1>
         <nav className="header__nav">
-          <h2 className="header__nav__h2">busca en la lista</h2>
-          <input type="text" id='search' name='search' value={searchValue} onChange={handleInput} />
+          <h2 className="header__nav__h2">Busca en la lista</h2>
+          <input type="text" id='search' name='search' className="header__nav__input" value={searchValue} onChange={handleInput} />
         </nav>
       </header>
       <main>
@@ -85,7 +90,7 @@ export default function App() {
         <form className="form" onSubmit={handleSubmit}>
           <label htmlFor="newTask" className="form__label">Añade una nueva tarea</label>
           <input type="text" className="form__input" name="newTask" id="newTask" value={newTask} onChange={addNewTask} />
-          <button className="form__button" onClick={handleNewTask}>Añadir nueva tarea</button>
+          <button className="form__button" onClick={handleNewTask}>Añadir</button>
         </form>
       </main>
       <footer> {taskCounter()}</footer>

@@ -6,3 +6,11 @@
         font-size: 24px;
     }
 }
+@mixin hoverButton{    
+    transition: 0.5s;
+    &:hover{
+        background-color: #F2EDEB;
+        color: #F05365;
+        cursor: pointer;
+    }
+}

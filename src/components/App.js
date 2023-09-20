@@ -1,9 +1,11 @@
 import "../styles/App.scss";
 import { useState, useEffect } from 'react';
 import ls from '../services/localStorage';
+import Modal from './modal/Modal';
 
 export default function App() {
   const [tasks, setTasks] = useState(ls.get('localData', [
+    { task: 'Hacer un modal de confirmación para esta web', completed: true },
     { task: 'Comprar harina, jamón y pan rallado', completed: true },
     { task: 'Hacer croquetas ricas', completed: true },
     { task: 'Ir a la puerta de un gimnasio', completed: false },
@@ -14,6 +16,8 @@ export default function App() {
   ]));
   const [searchValue, setSearchValue] = useState('');
   const [newTask, setNewTask] = useState('');
+  const [modal, setModal] = useState(false)
+  const [taskToErase, setTaskToErase] = useState('')
 
   const render = () => {
     return (tasks
@@ -58,20 +62,30 @@ export default function App() {
   //añadir una tarea nueva
   const addNewTask = (ev) => {
     setNewTask(ev.target.value);
-
   }
+
   const handleNewTask = () => {
     setTasks([...tasks, { task: newTask, completed: false }])
     setNewTask('');
   }
+
   const handleErase = (ev) => {
     if (ev.target.className === "fa-solid fa-trash list__trash") {
       const eraseTaskIndex = parseInt(ev.target.id)
-      tasks.splice([eraseTaskIndex], 1);
-      setTasks([...tasks])
+      setTaskToErase(eraseTaskIndex)
+      setModal(true)
     }
+  }
 
+  const confirmErase = () => {
+    tasks.splice([taskToErase], 1);
+    setTasks([...tasks])
+    setModal(false)
+  }
 
+  const handleModal = (id) => {
+    if (id === 'yes') confirmErase()
+    else setModal(false)
   }
 
   return (
@@ -84,9 +98,7 @@ export default function App() {
         </nav>
       </header>
       <main>
-
         <ul>{render()}</ul>
-
         <form className="form" onSubmit={handleSubmit}>
           <label htmlFor="newTask" className="form__label">Añade una nueva tarea</label>
           <input type="text" className="form__input" name="newTask" id="newTask" value={newTask} onChange={addNewTask} />
@@ -94,8 +106,7 @@ export default function App() {
         </form>
       </main>
       <footer> {taskCounter()}</footer>
-
-
+      {modal && <Modal handleModal={handleModal} />}
     </div>
   );
 }
